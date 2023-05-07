@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block PAGE_TITLE %}
+    {% trans "Profile" %}
+{% endblock %}
+
+{% block HEADER %}
+    <style>
+        .fileinput-preview > img {
+            box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+            border-radius: 50% !important;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+{% endblock HEADER %}
+
+{% block PAGE_CONTENT %}
+    <div class="profile-page">
+        <div class="page-header header-filter" data-parallax="true" style="background-image: url('{% static '/assets/img/background.webp' %}');"></div>
+            <div class="main main-raised">
+                <div class="profile-content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 ml-auto mr-auto">
+                                <div class="profile">
+                                    <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                        <div class="fileinput-new avatar">
+                                            {% if user.profile.photo %}
+                                                <img src="{{ user.profile.photo.url }}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                                            {% else %}
+                                                <img src="{% static "assets/img/profile_placeholder.png" %}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                                            {% endif %}
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists">
+                                            <img src="" alt="" class="img-raised rounded-circle img-fluid">
+                                        </div>
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <span class="btn btn-raised btn-round btn-primary btn-file">
+                                                <span class="fileinput-new">Select image</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="image"/>
+                                            </span>
+                                            <button type="submit" class="btn btn-primary btn-round fileinput-exists" > Submit</button>
+                                            <a class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                        </form>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="name">
+                                            <h3 class="title">{{ user.username }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 ml-auto mr-auto">
+                                <div class="profile-tabs">
+                                    <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
+                                        <!--
+                              color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
+                          -->
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#billing_info" role="tab" data-toggle="tab">
+                                                <i class="material-icons">info_outline</i> Info
+                                            </a>
+                                        </li>
+                                        {% if subscription %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#subscription" role="tab" data-toggle="tab">
+                                                <i class="material-icons">book</i> Subscription
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#password" role="tab" data-toggle="tab">
+                                                <i class="material-icons">https</i> Password
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content tab-space">
+                            <div class="tab-pane text-center active" id="billing_info">
+                                <div class="row">
+                                    <div class="col-md-12 mr-auto">
+                                        <form class="form" method="post">
+                                            {% csrf_token %}
+                                            {% bootstrap_form_errors billing_info_form %}
+                                             <input type="hidden" class="form-control" name="user" value="{{ user.id }}">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">face</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="name" placeholder="Name..." value="{{ user.billinginformation.name }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">face</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="surname" placeholder="Surname..." value="{{ user.billinginformation.surname }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">phone_iphone</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="gsm_number" placeholder="GSM Number..."  value="{{ user.billinginformation.gsm_number }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">mail</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ user.email }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">featured_video</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="identity_number" placeholder="Identity Number..."  value="{{ user.billinginformation.identity_number }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">home</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="address" placeholder="Address..."  value="{{ user.billinginformation.address }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">location_city</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="city" placeholder="City..."  value="{{ user.billinginformation.city }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">flag</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="country" placeholder="Country..."  value="{{ user.billinginformation.country }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">markunread_mailbox</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="zipcode" placeholder="Zipcode..."  value="{{ user.billinginformation.zipcode }}">
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary btn-round">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if subscription %}
+                            <div class="tab-pane text-center" id="subscription">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <div class="card card-pricing card-raised">
+                                            <div class="card-body">
+                                                <h6 class="card-category text-info">{{ subscription.subscription_type.name_en }}</h6>
+                                                <ul>
+                                                    <li>
+                                                        <b>Start Date: </b>{{ subscription.start_date }}</li>
+                                                    <li>
+                                                        <b>Renewal Date: </b>{{ subscription.renewal_date }} </li>
+                                                </ul>
+                                                <a href="{% url 'logout' %}" class="btn btn-red btn-raised btn-round">
+                                                    Cancel Subscription
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 mr-auto">
+                                        <form class="form" method="post">
+                                            {% csrf_token %}
+                                            {% bootstrap_form_errors book_package_form %}
+                                            <input type="hidden" class="form-control" name="subscription_type" value="{{ product_object.id }}">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">book</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="book1" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">book</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="book2" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">book</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="book3" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">book</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="book4" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button class="btn btn-primary btn-round" type="submit">Send Request</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="tab-pane text-center" id="password">
+                                <div class="row">
+                                    <div class="col-md-12 mr-auto">
+                                        <form class="form" method="post">
+                                            {% csrf_token %}
+                                            {% bootstrap_form_errors password_form %}
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">lock_outline</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="password" name="new_password1" placeholder="Password..." class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="material-icons">lock_outline</i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="password" name="new_password2" placeholder="Password Check..." class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary btn-round">Change Password</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

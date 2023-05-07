@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block PAGE_TITLE %}
+    {{ product_object.name }}
+{% endblock %}
+
+{% block PAGE_CONTENT %}
+    <div class="product-page">
+        <div class="page-header header-filter" data-parallax="true" filter-color="primary" style="background-image: url({% static '/assets/img/background.webp' %});">
+
+        </div>
+        <div class="section section-gray">
+            <div class="container">
+                <div class="main main-raised main-product">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="tab-content-custom">
+                                <div class="tab-pane active" id="product-page1">
+                                    <img src="{{ product_object.photo }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <h2 class="title"> {{ product_object.name }} </h2>
+                            <h3 class="main-price">
+                                {{ product_object.price }}<small>{{ product_object.sign }}</small>
+                                <small>/{{ product_object.period }}</small>
+                                {% if product_object.deposit > 0 %}
+                                    +
+                                    {{ product_object.deposit }}<small>{{ product_object.sign }}</small><small> Deposit</small>
+                                {% endif %}
+                            </h3>
+                            <div id="accordion" role="tablist">
+                                <div class="card card-collapse">
+                                    <div class="card-header" role="tab" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Description
+                                                <i class="material-icons">keyboard_arrow_down</i>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <p>{{ product_object.info }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if book_package_form %}
+                            <div class="row">
+                                <div class="col-md-12 mr-auto">
+                                    <form class="form" method="post">
+                                        {% csrf_token %}
+                                        {% bootstrap_form_errors book_package_form %}
+                                        <input type="hidden" class="form-control" name="subscription_type" value="{{ product_object.id }}">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">book</i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" name="book1" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">book</i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" name="book2" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                            </div>
+                                        </div>
+                                        <!--div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">book</i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" name="book3" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                            </div>
+                                        </div-->
+                                        <!--div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">book</i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" name="book4" placeholder="Book Name, Author and Publisher / ISBN / URL">
+                                            </div>
+                                        </div-->
+                                        <div class="text-center">
+                                            <button class="btn btn-primary btn-round" type="submit">Proceed to Checkout &#xA0;<i class="material-icons">shopping_cart</i></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if register_form %}
+                    <div class="row">
+                        <div class="col-md-6 ml-auto mr-auto">
+                            <div class="row">
+                                <div class="col-md-10 ml-auto mr-auto">
+                                    <h2 class="card-title text-center">Sign Up</h2>
+                                    <div class="social text-center">
+                                        <a href="{% url 'social:begin' 'twitter' %}">
+                                            <button class="btn btn-just-icon btn-round btn-twitter">
+                                                <i class="fa fa-twitter"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'social:begin' 'facebook' %}">
+                                            <button class="btn btn-just-icon btn-round btn-facebook">
+                                                <i class="fa fa-facebook"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'social:begin' 'google-oauth2' %}">
+                                            <button class="btn btn-just-icon btn-round btn-google">
+                                                <i class="fa fa-google"></i>
+                                            </button>
+                                        </a>
+                                        <h4> or be classical </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mr-auto">
+                                    <form class="form" method="post">
+                                        {% csrf_token %}
+                                        {% bootstrap_form_errors register_form %}
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">face</i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" name="username" placeholder="Username...">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">mail</i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" name="email" placeholder="Email...">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">lock_outline</i>
+                                                    </span>
+                                                </div>
+                                                <input type="password" name="password1" placeholder="Password..." class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">lock_outline</i>
+                                                    </span>
+                                                </div>
+                                                <input type="password" name="password2" placeholder="Password Check..." class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="" checked disabled>
+                                                <span class="form-check-sign">
+                                                    <span class="check"></span>
+                                                </span>
+                                                I agree to the
+                                                <a href="#something">terms and conditions</a>.
+                                            </label>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-round">Sign Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ml-auto mr-auto">
+                            <div class="row">
+                                <div class="col-md-10 ml-auto mr-auto">
+                                    <h2 class="card-title text-center">Sign In</h2>
+                                    <div class="social text-center">
+                                        <a href="{% url 'social:begin' 'twitter' %}">
+                                            <button class="btn btn-just-icon btn-round btn-twitter">
+                                                <i class="fa fa-twitter"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'social:begin' 'facebook' %}">
+                                            <button class="btn btn-just-icon btn-round btn-facebook">
+                                                <i class="fa fa-facebook"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'social:begin' 'google-oauth2' %}">
+                                            <button class="btn btn-just-icon btn-round btn-google">
+                                                <i class="fa fa-google"></i>
+                                            </button>
+                                        </a>
+                                        <h4> or be classical </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mr-auto">
+                                    <form class="form" method="post">
+                                        {% csrf_token %}
+                                        {% bootstrap_form_errors login_form %}
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">face</i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" name="username" placeholder="Username...">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons">lock_outline</i>
+                                                    </span>
+                                                </div>
+                                                <input type="password" name="password" placeholder="Password..." class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-round">Log In</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

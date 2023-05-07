@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block PAGE_TITLE %}
+    {%  trans "Billing Information" %}
+{% endblock %}
+
+{% block NAVBAR %}{% endblock %}
+
+{% block PAGE_CONTENT %}
+    <div class="page-header header-filter" filter-color="primary" style="background-image: url({% static '/assets/img/background.webp' %}); background-size: cover; background-position: top center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 ml-auto mr-auto">
+                    <div class="card card-signup">
+                        <h2 class="card-title text-center">Billing Information</h2>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 mr-auto">
+                                    <form class="form" method="post" action="{% url "checkout" %}">
+                                        {% csrf_token %}
+                                        {% bootstrap_form_errors form %}
+                                        <input type="hidden" class="form-control" name="subscription_type" value="{{ subscription_type }}">
+                                        <input type="hidden" class="form-control" name="book1" value="{{ book1 }}">
+                                        <input type="hidden" class="form-control" name="book2" value="{{ book2 }}">
+                                        <div class="row">
+                                            <div class="col-md-6 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">face</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="cardHolderName" placeholder="Name...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">face</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="cardHolderSurname" placeholder="Surname...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">credit_card</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="cardNumber" placeholder="Card Number...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">date_range</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="expireMonth" placeholder="Expire Month...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">date_range</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="expireYear" placeholder="Expire Year...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">credit_card</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="cvc" placeholder="CVC...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">phone_iphone</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="gsmNumber" placeholder="GSM Number...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">mail</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="email" placeholder="Email...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">featured_video</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="identityNumber" placeholder="Identity Number...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">home</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="address" placeholder="Address...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">location_city</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="city" placeholder="City...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">flag</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="country" placeholder="Country...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mr-auto">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="material-icons">markunread_mailbox</i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="zipCode" placeholder="Zipcode...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-round">Start Free Trial</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block FOOTER %}{% endblock %}

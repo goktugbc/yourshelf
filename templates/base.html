@@ -1,0 +1,202 @@
+{% load staticfiles %}
+{% load i18n %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>{% block PAGE_TITLE %}{% endblock %} | Yourshelf</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <!-- Favicons -->
+        <link rel="icon" href="{% static '/assets/img/favicon.ico' %}" type="image/x-icon"/>
+        <link rel="shortcut icon" type="image/png" href="{% static '/assets/img/favicon.ico' %}"/>
+        <link rel="shortcut icon" href="{% static '/assets/img/favicon.ico' %}" type="image/x-icon"/>
+        <link rel="apple-touch-icon" href="{% static '/assets/img/favicon.ico' %}">
+
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+        <!-- Material Kit CSS -->
+        <link rel="stylesheet" href="{% static '/assets/css/material-kit.css' %}?v=2.0.0">
+        {% block HEADER %}
+        {% endblock HEADER %}
+    </head>
+    <body>
+        {% block NAVBAR %}
+            <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg " color-on-scroll="100" id="sectionsNav">
+                <div class="container">
+                    <div class="navbar-translate">
+                        <a class="navbar-brand" href="https://yourshelf.co"> <img style="height: 70%; background-color: transparent !important;" src="{% static '/assets/img/yourshelf.png' %}"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                            <span class="navbar-toggler-icon"></span>
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav ml-auto">
+                            {% if not subscription %}
+                            <li class="nav-item">
+                                <a href="{% url "pricing" %}" class="nav-link">
+                                    <i class="material-icons">shopping_cart</i> Subscribe Now!
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if not user.is_authenticated %}
+                                <li class="nav-item">
+                                    <span class="nav-link">
+                                    |
+                                    </span>
+                                </li>
+                                {% url 'login' as login_url %}
+                                {% if request.get_full_path != login_url %}
+                                <li class="nav-item">
+                                    <a href="{% url "login" %}" class="nav-link">
+                                        Sign In
+                                    </a>
+                                </li>
+                                {% endif %}
+
+                                {% url 'signup' as signup_url %}
+                                {% if request.get_full_path != signup_url %}
+                                <li class="nav-item">
+                                    <a href="{% url "signup" %}" class="nav-link">
+                                        Sign Up
+                                    </a>
+                                </li>
+                                {% endif %}
+                            {% else %}
+                                <li class="dropdown nav-item">
+                                    <a href="#" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
+                                        <div class="profile-photo-small rounded-circle" style="overflow: hidden;">
+                                            {% if user.profile.photo %}
+                                                <img src="{{ user.profile.photo.url }}" alt="Circle Image" class="img-raised img-fluid">
+                                            {% else %}
+                                                <img src="{% static "assets/img/profile_placeholder.png" %}" alt="Circle Image" class="img-raised img-fluid">
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-with-icons">
+                                        <a href="{% url "profile" %}" class="dropdown-item">
+                                            Profile
+                                        </a>
+                                        <a href="{% url "logout" %}" class="dropdown-item">
+                                            Sign Out
+                                        </a>
+                                    </div>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        {% endblock NAVBAR %}
+        <!-- Main content -->
+        {% block PAGE_CONTENT %}
+        {% endblock %}
+        <!-- /.content -->
+        <!--   Core JS Files   -->
+        <script src="{% static '/assets/js/core/jquery.min.js' %}"></script>
+        <script src="{% static '/assets/js/core/popper.min.js' %}"></script>
+        <script src="{% static '/assets/js/bootstrap-material-design.js' %}"></script>
+
+        <!-- Plugin for Date Time Picker and Full Calendar Plugin-->
+        <script src="{% static '/assets/js/plugins/moment.min.js' %}"></script>
+
+        <!-- Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+        <script src="{% static '/assets/js/plugins/bootstrap-selectpicker.js' %}"></script>
+
+        <!-- Plugin for Tags, full documentation here: http://xoxco.com/projects/code/tagsinput/  -->
+        <script src="{% static '/assets/js/plugins/bootstrap-tagsinput.js' %}"></script>
+
+        <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+        <script src="{% static '/assets/js/plugins/jasny-bootstrap.min.js' %}"></script>
+
+        <!-- Plugin for Small Gallery in Product Page -->
+        <script src="{% static '/assets/js/plugins/jquery.flexisel.js' %}"></script>
+
+        <!-- Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+        <script src="{% static '/assets/js/plugins/bootstrap-datetimepicker.min.js' %}"></script>
+
+        <!-- Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+        <script src="{% static '/assets/js/plugins/nouislider.min.js' %}"></script>
+
+        <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
+        <script src="{% static '/assets/js/material-kit.js' %}?v=2.0.0"></script>
+
+        {% block FOOTER %}
+            <footer class="footer footer-black">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="footer-brand" href="https://www.yourshelf.co"><img style="height: 70%; background-color: transparent !important;" src="{% static '/assets/img/yourshelf.png' %}"></a>
+                            <ul class="pull-left">
+                                <li>
+                                    <a href="https://www.yourshelf.co/terms-of-use">
+                                        Terms of Use
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.yourshelf.co/privacy-policy">
+                                        Privacy Policy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.yourshelf.co/cancellation-return-policy">
+                                        Cancellation and Return
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.yourshelf.co/distance-sales-contract">
+                                        Distance Sales Contract
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.yourshelf.co/shipping-delivery">
+                                        Shipping and Delivery
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="social-buttons float-right">
+                                <li>
+                                    <a href="https://twitter.com/yourshelfco" target="_blank" class="btn btn-just-icon btn-link">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://facebook.com/yourshelfco" target="_blank" class="btn btn-just-icon btn-link">
+                                        <i class="fa fa-facebook-square"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://instagram.com/yourshelf.co" target="_blank" class="btn btn-just-icon btn-link">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mailto:hello@yourshelf.co" target="_blank" class="btn btn-just-icon btn-link">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="copyright pull-center">
+                                Copyright &#xA9;
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script> Yourshelf All Rights Reserved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block PAGE_TITLE %}
+    {%  trans "Pricing" %}
+{% endblock %}
+
+{% block PAGE_CONTENT %}
+    <div class="pricing ">
+        <div class="page-header header-filter header-small" filter-color="primary" data-parallax="true" style="background-image: url({% static '/assets/img/background.webp' %});">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto text-center">
+                        <h1 class="title"><strong>Choose a plan</strong> that suits you and start your <strong>free month</strong>!</h1>
+                        <h4>We offer you a limited piece of the ultimate reading experience for free. In your trial month, you will receive 2 books you selected and you will not be charged until after your free month ends.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main main-raised">
+            <div class="container">
+                <div class="pricing-2">
+                    <div class="row">
+                        {% for subscription_type in subscription_types %}
+                            <div class="col-md-{{ subscription_type.col_size }} col-md-offset-{{ subscription_type.col_offset_size }}">
+                                <div class="card card-pricing card-raised bg-primary">
+                                    <div class="card-body">
+                                        <h6 class="card-category text-info">{{ subscription_type.name }}</h6>
+                                        <h1 class="card-title">
+                                            {{ subscription_type.price }}0<small>{{ subscription_type.sign }}</small>
+                                            <small>/{{ subscription_type.period }}</small>
+                                        </h1>
+                                        <ul>
+                                            <li>
+                                                <b>First Month Free with 2 Books</b></li>
+                                            <li>
+                                                <b>{{ subscription_type.number_of_books }}</b> Books </li>
+                                            <li>
+                                                {% if subscription_type.shipment %}
+                                                    <b>+</b> Shipment Fee </li>
+                                                {% else %}
+                                                    <b>No</b> Shipment Fee </li>
+                                                {% endif %}
+                                            <li>
+                                                {% if subscription_type.deposit > 0 %}
+                                                    <b>{{ subscription_type.deposit }}{{ subscription_type.sign }}</b> Deposit </li>
+                                                {% else %}
+                                                    <b>No</b> Deposit </li>
+                                                {% endif %}
+                                        </ul>
+                                        <a href="{% url 'product' subscription_type.id %}" class="btn btn-white btn-raised btn-round">
+                                            Get Started
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr>
+                <div class="features-2">
+                    <div class="text-center">
+                        <h3 class="title">Frequently Asked Questions</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 ml-auto">
+                            <div class="info info-horizontal">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">card_membership</i>
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Can I cancel my subscription?</h4>
+                                    <p>Yes, you can cancel and perform other actions on your subscriptions via the Profile page. </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mr-auto">
+                            <div class="info info-horizontal">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">card_giftcard</i>
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Is there any discount for an annual subscription?</h4>
+                                    <p>Yes, we offer a 10% discount and a free shipment for each month if you choose annual subscription for any plan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 ml-auto">
+                            <div class="info info-horizontal">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">attach_money</i>
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Which payment methods do you take?</h4>
+                                    <p>Credit and Debit Cards. We currently accept any credit or debit card with a MasterCard, Visa, Maestro, American Express and Troy logo. </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mr-auto">
+                            <div class="info info-horizontal">
+                                <div class="icon icon-primary">
+                                    <i class="material-icons">question_answer</i>
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Any other questions we can answer?</h4>
+                                    <p>We are happy to help you. <a href="mailto:hello@yourshelf.co">Contact us</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
